@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -263,7 +264,13 @@ public class FaceActivity extends Activity implements SurfaceHolder.Callback {
         public boolean updateTime() {
             int i, j, d;
             Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int hour;
+
+            if(DateFormat.is24HourFormat(self)) {
+                hour = c.get(Calendar.HOUR_OF_DAY);
+            } else {
+                hour = c.get(Calendar.HOUR);
+            }
             int minute = c.get(Calendar.MINUTE);
 
             if(minute != oldMinute) {
@@ -275,7 +282,7 @@ public class FaceActivity extends Activity implements SurfaceHolder.Callback {
                 for (d = 0; d < 4; d++) {
                     for (i = 0; i < 4; i++) {
                         for (j = 0; j < 7; j++) {
-                            timeMask[i + 2 + d * 5][j + 8] = digitMasks[timedigits[d]][j][i];
+                            timeMask[i + 2 + d * 5][j + 4] = digitMasks[timedigits[d]][j][i];
                         }
                     }
                 }
@@ -292,7 +299,7 @@ public class FaceActivity extends Activity implements SurfaceHolder.Callback {
             if (mSurfaceHolder != null && (drawCanvas = mSurfaceHolder.lockCanvas()) != null) {
                 drawCanvas.drawRGB(0, 0, 0);
                 for(i = 2; i < numRows - 2; i++) {
-                    for(j = 7; j < 15; j++) {
+                    for(j = 4; j < 12; j++) {
                         if(timeMask[i][j]) {
                             drawCanvas.drawRect(xOffset + i * charWidth - 1, j * charWidth + 2, xOffset + i*charWidth + charWidth - 3, j*charWidth + charWidth,  paintTimePause);
                         }
