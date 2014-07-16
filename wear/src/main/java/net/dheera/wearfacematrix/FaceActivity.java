@@ -270,6 +270,7 @@ public class FaceActivity extends Activity implements SurfaceHolder.Callback {
                 hour = c.get(Calendar.HOUR_OF_DAY);
             } else {
                 hour = c.get(Calendar.HOUR);
+                if(hour == 0) hour = 12;
             }
             int minute = c.get(Calendar.MINUTE);
 
